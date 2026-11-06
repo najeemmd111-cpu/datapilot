@@ -1,0 +1,26 @@
+<div class="head">
+  <h2>{{ station().name }}</h2>
+  <button type="button" class="close" aria-label="Close station details" (click)="closed.emit()">×</button>
+</div>
+<p class="now"><strong>{{ bikesNow() ?? 'No reading' }}</strong>
+  @if (bikesNow() !== null) { of {{ station().capacity }} places have a bike }</p>
+
+<div class="chance">
+  @if (prediction(); as p) {
+    <svg viewBox="0 0 128 128" role="img" [attr.aria-label]="percentText() + ' chance of no bikes in 30 minutes'">
+      <circle cx="64" cy="64" [attr.r]="radius" class="track" />
+      <circle cx="64" cy="64" [attr.r]="radius" class="value" [attr.stroke]="ringColor()" [attr.stroke-dasharray]="dash()" />
+      <text x="64" y="74" text-anchor="middle" [class.small]="percentText().length > 4">{{ percentText() }}</text>
+    </svg>
+    <p>chance this station has no bikes in 30 minutes</p>
+  } @else if (predictionError()) {
+    <p>{{ predictionError() }}</p>
+  } @else if (playing()) {
+    <p>Pause to see this station's chance of running out.</p>
+  } @else {
+    <p>Working out the chance of running out…</p>
+  }
+</div>
+
+<h3>Bikes through the day</h3>
+<div class="chart"><canvas #chart aria-label="Bikes at this station through the day" role="img"></canvas></div>

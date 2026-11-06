@@ -1,0 +1,25 @@
+:host {
+  display: block; position: absolute; top: 16px; right: 16px; bottom: 16px; width: 340px; overflow: auto;
+  padding: 16px 18px; color: var(--plaque); background: var(--enamel);
+  border: 3px solid var(--rim); border-radius: var(--radius-plaque);
+}
+.head { display: flex; gap: 8px; justify-content: space-between; align-items: start; }
+h2 { font-size: 25px; line-height: 1.12; font-weight: 800; }
+.close { width: 36px; height: 36px; flex: none; border: 0; border-radius: 50%; background: var(--enamel-lift); font-size: 22px; line-height: 1; }
+.now { margin-top: 8px; color: var(--mist); }
+.now strong { color: var(--plaque); font-size: 28px; font-weight: 800; }
+.chance { display: flex; align-items: center; gap: 14px; min-height: 112px; margin: 14px 0; }
+.chance svg { width: 104px; height: 104px; flex: none; }
+.chance circle { fill: none; stroke-width: 11; }
+.track { stroke: var(--enamel-lift); }
+.value { transform: rotate(-90deg); transform-origin: 64px 64px; stroke-linecap: round; }
+.chance text { fill: var(--plaque); font-size: 30px; font-weight: 800; }
+text.small { font-size: 17px; transform: translateY(-5px); }
+h3 { font-size: 17px; font-weight: 500; color: var(--mist); }
+.chart { position: relative; height: 170px; margin-top: 4px; }
+@media (max-width: 760px) {
+  :host { top: auto; left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 72%; z-index: 3; }
+  .chance { min-height: 90px; margin: 8px 0; }
+  .chance svg { width: 84px; height: 84px; }
+  .chart { height: 120px; }
+}

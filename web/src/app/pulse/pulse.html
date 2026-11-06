@@ -1,0 +1,55 @@
+@if (failed()) {
+  <div class="message"><p>The API isn't answering. Start it with <code>python run.py</code>, then reload this page.</p></div>
+} @else {
+  <app-city-canvas [stations]="stations()" [bikes]="currentBikes()" [selectedId]="selectedId()"
+    [highlighted]="api.highlighted()" [inset]="inset()" (picked)="choose($event)"
+    [label]="'Map of ' + stations().length + ' stations. ' + emptyNow() + ' have no bikes at ' + clock() + '.'" />
+
+  <section class="reading" aria-live="off">
+    <h1 class="clock">{{ clock() }}</h1>
+    <p class="count"><strong>{{ emptyNow() }}</strong> stations with no bikes</p>
+    <ul class="key" aria-label="Map key">
+      <li><i class="mint"></i>Bikes free</li>
+      <li><i class="amber"></i>Running low</li>
+      <li><i class="red"></i>Empty</li>
+    </ul>
+  </section>
+
+  <div class="finder">
+    <label for="station-search">Find a station</label>
+    <input id="station-search" type="search" autocomplete="off" placeholder="Station name"
+      [value]="search()" (input)="search.set($any($event.target).value)" />
+    @if (matches().length) {
+      <ul>
+        @for (match of matches(); track match.station_id) {
+          <li><button type="button" (click)="choose(match.station_id)">{{ match.name }}</button></li>
+        }
+      </ul>
+    }
+  </div>
+
+  @if (api.highlighted().length) {
+    <button type="button" class="lit" (click)="clearHighlights()">Clear {{ api.highlighted().length }} stations from your answer</button>
+  }
+
+  @if (selected(); as station) {
+    <app-station-panel [station]="station" [bikesNow]="selectedBikes()" [history]="history()" [labels]="labels()"
+      [prediction]="prediction()" [predictionError]="predictionError()" [playing]="playing()" (closed)="choose(null)" />
+  }
+
+  <section class="controls" [class.beside]="selected()" aria-label="Replay controls">
+    <div class="row">
+      <button type="button" class="play" (click)="toggle()" [disabled]="!slotCount()">{{ playing() ? 'Pause' : 'Play the day' }}</button>
+      <label class="day-picker"><span>Day</span>
+        <select [value]="day()" (change)="chooseDay($any($event.target).value)">
+          @for (option of meta()?.days ?? []; track option) {
+            <option [value]="option" [selected]="option === day()">{{ formatDay(option) }}</option>
+          }
+        </select>
+      </label>
+      <span class="caption">Line shows the share of stations with no bikes</span>
+    </div>
+    <app-heartbeat [values]="pulse()" [position]="position()" (moved)="scrub($event)"
+      label="Time of day" [valueText]="clock() + ', ' + dayLabel()" />
+  </section>
+}

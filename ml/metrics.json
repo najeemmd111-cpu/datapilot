@@ -1,0 +1,25 @@
+{
+  "data": "real",
+  "baseline_empty_stays_empty": {
+    "precision": 0.6087,
+    "recall": 0.6103,
+    "pr_auc": 0.3918,
+    "confusion": {
+      "tn": 266108,
+      "fp": 5874,
+      "fn": 5836,
+      "tp": 9139
+    }
+  },
+  "hist_gradient_boosting": {
+    "precision": 0.686,
+    "recall": 0.483,
+    "pr_auc": 0.6404,
+    "confusion": {
+      "tn": 268672,
+      "fp": 3310,
+      "fn": 7742,
+      "tp": 7233
+    }
+  }
+}

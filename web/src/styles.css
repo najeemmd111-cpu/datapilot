@@ -1,0 +1,34 @@
+@import '@fontsource/alegreya-sans/400.css';
+@import '@fontsource/alegreya-sans/500.css';
+@import '@fontsource/alegreya-sans/800.css';
+
+:root {
+  --enamel: #12235c;
+  --enamel-deep: #0c1a48;
+  --enamel-lift: #1b3175;
+  --plaque: #f3f5ee;
+  --mist: #aebbdf;
+  --rim: #63c58a;
+  --low: #f4b740;
+  --empty: #ff5468;
+  --radius-plaque: 14px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--enamel-deep);
+  color: var(--plaque);
+  font-family: 'Alegreya Sans', 'Trebuchet MS', sans-serif;
+  font-size: 18px;
+  line-height: 1.4;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--low); outline-offset: 2px; }
+::placeholder { color: var(--mist); opacity: .85; }
+h1, h2, h3, p { margin: 0; }
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

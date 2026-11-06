@@ -1,0 +1,39 @@
+<div class="page">
+  <h1>Ask the city</h1>
+  <form (ngSubmit)="send()">
+    <label for="question">Your question about the stations</label>
+    <div class="line">
+      <input id="question" name="question" maxlength="300" autocomplete="off" required
+        placeholder="Which stations are empty most often?" [ngModel]="question()" (ngModelChange)="question.set($event)" />
+      <button type="submit" [disabled]="loading()">{{ loading() ? 'Asking…' : 'Ask' }}</button>
+    </div>
+  </form>
+
+  @if (!tickets().length && !loading()) {
+    <div class="try">
+      @for (suggestion of suggestions; track suggestion) {
+        <button type="button" (click)="send(suggestion)">{{ suggestion }}</button>
+      }
+    </div>
+  }
+  @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+
+  <div class="tickets" aria-live="polite">
+    @for (ticket of tickets(); track ticket) {
+      <article class="ticket" [class.flipped]="ticket.flipped">
+        <div class="side front" [attr.aria-hidden]="ticket.flipped" [inert]="ticket.flipped">
+          <p class="asked">{{ ticket.question }}</p>
+          <p class="answer">{{ ticket.answer }}</p>
+          <div class="actions">
+            @if (ticket.sql) { <button type="button" (click)="flip(ticket)">See the SQL</button> }
+            @if (ticket.station_ids.length) { <button type="button" (click)="showOnMap(ticket)">Show on the map</button> }
+          </div>
+        </div>
+        <div class="side back" [attr.aria-hidden]="!ticket.flipped" [inert]="!ticket.flipped">
+          <pre tabindex="0"><code>{{ ticket.sql }}</code></pre>
+          <div class="actions"><button type="button" (click)="flip(ticket)">See the answer</button></div>
+        </div>
+      </article>
+    }
+  </div>
+</div>

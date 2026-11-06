@@ -1,0 +1,8 @@
+# Needed for BigQuery, a real LLM and Langfuse. Not needed for the sample-data run.
+google-cloud-bigquery>=3.25,<4
+db-dtypes>=1.3,<2
+langchain>=1.0,<2
+langchain-openai>=1.0,<2
+langchain-anthropic>=1.0,<2
+langchain-google-genai>=2.1,<5
+langfuse>=3.0,<5

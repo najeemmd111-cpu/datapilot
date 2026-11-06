@@ -1,0 +1,17 @@
+[
+ {"q":"Which 5 stations were empty most often?","sql":"SELECT s.name FROM snapshots r JOIN stations s USING (station_id) GROUP BY 1 ORDER BY COUNTIF(r.bikes = 0) DESC, 1 LIMIT 5"},
+ {"q":"How many bikes were available at the latest reading?","sql":"SELECT SUM(bikes) FROM snapshots WHERE slot = (SELECT MAX(slot) FROM snapshots)"},
+ {"q":"At what hour are stations most often empty?","sql":"SELECT local_hour FROM snapshots GROUP BY 1 ORDER BY COUNTIF(bikes = 0) DESC LIMIT 1"},
+ {"q":"How many stations are there?","sql":"SELECT COUNT(*) FROM stations"},
+ {"q":"What is the total capacity of all stations?","sql":"SELECT SUM(capacity) FROM stations"},
+ {"q":"What percentage of available bikes are electric?","sql":"SELECT ROUND(100 * SUM(ebike) / SUM(bikes), 1) FROM snapshots"},
+ {"q":"How many stations had no bikes at the latest reading?","sql":"SELECT COUNT(*) FROM snapshots WHERE bikes = 0 AND slot = (SELECT MAX(slot) FROM snapshots)"},
+ {"q":"Which station has the largest capacity?","sql":"SELECT name FROM stations ORDER BY capacity DESC, name LIMIT 1"},
+ {"q":"What is the average number of bikes per reading on weekends?","sql":"SELECT ROUND(AVG(bikes), 1) FROM snapshots WHERE is_weekend = 1"},
+ {"q":"What is the average number of bikes per reading on weekdays?","sql":"SELECT ROUND(AVG(bikes), 1) FROM snapshots WHERE is_weekend = 0"},
+ {"q":"At what hour are the most bikes available in total?","sql":"SELECT local_hour FROM snapshots GROUP BY 1 ORDER BY SUM(bikes) DESC LIMIT 1"},
+ {"q":"On which date were stations empty the most often?","sql":"SELECT local_date FROM snapshots GROUP BY 1 ORDER BY COUNTIF(bikes = 0) DESC LIMIT 1"},
+ {"q":"Which 3 stations have the highest average number of bikes?","sql":"SELECT s.name FROM snapshots r JOIN stations s USING (station_id) GROUP BY 1 ORDER BY AVG(r.bikes) DESC, 1 LIMIT 3"},
+ {"q":"How many readings are in the snapshots table?","sql":"SELECT COUNT(*) FROM snapshots"},
+ {"q":"How many days of data are there?","sql":"SELECT COUNT(DISTINCT local_date) FROM snapshots"}
+]

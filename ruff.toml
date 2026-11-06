@@ -1,0 +1,7 @@
+line-length = 130
+exclude = ["web", ".venv", "*.ipynb"]
+[lint]
+select = ["E", "F", "I"]
+ignore = ["E402", "I001"]
+[lint.per-file-ignores]
+"api/agent.py" = ["E501"]

@@ -1,0 +1,11 @@
+.git
+.env
+.venv
+data
+ml
+infra
+web/node_modules
+web/dist
+web/.angular
+api/static
+**/__pycache__

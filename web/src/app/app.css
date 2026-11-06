@@ -1,0 +1,18 @@
+:host { display: flex; flex-direction: column; height: 100dvh; }
+.bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 10px 20px; background: var(--enamel); border-bottom: 3px solid var(--rim);
+}
+.brand { color: var(--plaque); font-size: 26px; font-weight: 800; text-decoration: none; letter-spacing: -0.01em; }
+nav { display: flex; gap: 6px; }
+nav a { color: var(--mist); padding: 5px 12px; border-radius: 999px; text-decoration: none; font-weight: 500; }
+nav a:hover { color: var(--plaque); }
+nav a.on { background: var(--plaque); color: var(--enamel); }
+.notice { background: var(--low); color: #231a00; padding: 3px 20px; font-size: 16px; font-weight: 500; }
+main { flex: 1; min-height: 0; position: relative; }
+@media (max-width: 480px) {
+  .bar { padding: 8px 16px; }
+  .brand { font-size: 21px; }
+  nav a { padding: 4px 9px; font-size: 16px; }
+  .notice { padding: 3px 16px; font-size: 15px; line-height: 1.25; }
+}

@@ -1,0 +1,47 @@
+:host { display: block; position: absolute; inset: 0; overflow: hidden; background: var(--enamel-deep); }
+.reading { position: absolute; top: 12px; left: 20px; pointer-events: none; }
+.clock { font-size: clamp(64px, 11vw, 132px); line-height: .92; font-weight: 800; letter-spacing: -.03em; }
+.count { margin-top: 4px; color: var(--mist); font-size: 20px; }
+.count strong { color: var(--empty); font-weight: 800; font-size: 26px; }
+.key { display: flex; flex-direction: column; gap: 1px; padding: 0; margin: 10px 0 0; list-style: none; color: var(--mist); font-size: 16px; }
+.key li { display: flex; align-items: center; gap: 8px; }
+.key i { width: 10px; height: 10px; border-radius: 50%; }
+.mint { background: #8fe3b0; } .amber { background: var(--low); } .red { background: var(--empty); }
+
+.finder { position: absolute; top: 16px; right: 16px; width: 230px; }
+:host:has(app-station-panel) .finder { right: 372px; }
+.finder label { display: block; font-size: 15px; color: var(--mist); }
+.finder input {
+  width: 100%; padding: 6px 12px; border: 1px solid var(--mist); border-radius: 8px; background: var(--enamel);
+}
+.finder ul { margin: 4px 0 0; padding: 4px; list-style: none; background: var(--enamel); border: 1px solid var(--mist); border-radius: 8px; }
+.finder button { width: 100%; padding: 5px 8px; text-align: left; border: 0; border-radius: 6px; background: none; }
+.finder button:hover { background: var(--enamel-lift); }
+
+.lit { position: absolute; left: 20px; bottom: 156px; padding: 6px 14px; border: 1px solid var(--plaque); border-radius: 999px; background: var(--enamel); }
+
+.controls { position: absolute; left: 20px; right: 20px; bottom: 12px; }
+.controls.beside { right: 372px; }
+.row { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
+.play { min-width: 128px; padding: 7px 18px; border: 0; border-radius: 999px; background: var(--plaque); color: var(--enamel); font-weight: 800; }
+.play:disabled { opacity: .5; }
+.day-picker { display: flex; align-items: center; gap: 6px; color: var(--mist); }
+select { padding: 5px 8px; border: 1px solid var(--mist); border-radius: 8px; background: var(--enamel); color: var(--plaque); }
+.caption { margin-left: auto; color: var(--mist); font-size: 16px; }
+.message { display: grid; place-items: center; height: 100%; padding: 24px; text-align: center; }
+code { color: var(--low); }
+
+@media (max-width: 760px) {
+  .reading { left: 16px; top: 10px; }
+  .clock { font-size: 56px; }
+  .count { font-size: 17px; }
+  .count strong { font-size: 21px; }
+  .key { flex-direction: row; gap: 10px; margin-top: 2px; font-size: 14px; }
+  .finder { top: 122px; left: 16px; right: 16px; width: auto; z-index: 2; }
+  .finder label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  :host:has(app-station-panel) .finder { right: 16px; }
+  .controls, .controls.beside { left: 16px; right: 16px; }
+  .row { flex-wrap: wrap; gap: 8px; }
+  .caption { margin-left: 0; font-size: 14px; width: 100%; }
+  .lit { left: 16px; bottom: 186px; }
+}

@@ -1,0 +1,11 @@
+<header class="bar">
+  <a class="brand" routerLink="/">Paris Pulse</a>
+  <nav aria-label="Pages">
+    <a routerLink="/" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }">The city</a>
+    <a routerLink="/ask" routerLinkActive="on">Ask the city</a>
+  </nav>
+</header>
+@if (meta()?.mode === 'sample') {
+  <p class="notice">Sample data: these stations and bike counts are generated, not real Vélib' readings.</p>
+}
+<main><router-outlet /></main>

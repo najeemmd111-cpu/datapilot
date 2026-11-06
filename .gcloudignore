@@ -1,0 +1,12 @@
+# gcloud reads this instead of .gitignore, so the trained model is uploaded.
+.git
+.env
+.venv/
+__pycache__/
+data/
+ml/
+infra/
+web/node_modules/
+web/dist/
+web/.angular/
+api/static/
