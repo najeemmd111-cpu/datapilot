@@ -88,18 +88,18 @@ Then run `python run.py`. Set the `LANGFUSE_*` values too if you want traces.
 
 ## Results
 
-Tested on the last two days of real data. Only 5.2% of the 286,957 readings were followed by an empty station 30 minutes later.
+Tested on the last two days of real data. Only 5.2% of the 286,957 readings were followed by an empty station 30 minutes later. The threshold was chosen on a separate validation day to match the baseline's recall.
 
 | Model | Precision | Recall | PR-AUC |
 | --- | --- | --- | --- |
 | Baseline: an empty station stays empty | 0.609 | 0.610 | 0.392 |
-| HistGradientBoosting, threshold 0.5 | 0.686 | 0.483 | 0.640 |
+| HistGradientBoosting, threshold 0.348 | 0.617 | 0.600 | 0.635 |
 
 - Accuracy would mislead: always predicting "not empty" scores about 94.8%.
 - Recall matters because a rider who walks to an empty station loses time.
 - Precision matters because too many false alarms make riders ignore the warning.
-- PR-AUC compares how well each method ranks risk, without fixing one threshold.
-- At 0.5, the model cut false alarms by 44% but caught 21% fewer empty stations than the baseline, so the threshold needs tuning.
+- PR-AUC compares how well each method ranks risk, but the baseline is only a yes/no rule, so this comparison flatters the model a little.
+- With recall matched, the model is about level with the baseline: 1.7% fewer empty stations caught and 5.2% fewer false alarms. Its advantage is a risk score for every station, while the baseline can only flag stations that are already empty.
 
 To compare LLMs on the 15 test questions, run this from `api`:
 
@@ -118,6 +118,7 @@ LLM_MODELS=provider:model-a,provider:model-b ../.venv/bin/python eval_llm.py
 - **Gaps in snapshots:** a simple `diff()` gave wrong lags, so lags now match exact timestamps.
 - **Wrong answer in the demo agent:** "At what hour do stations run out?" matched "run out" first and listed stations, so the hour pattern now runs first.
 - **Time zones in generated SQL:** portable SQL was awkward, so tables now store Paris date and hour columns.
+- **Default threshold hurt recall:** at 0.5 the model caught 21% fewer empty stations than the baseline, so the threshold is now chosen on a validation day.
 - **Add your own:** interviewers will ask about what broke for you.
 
 ## Data credit
