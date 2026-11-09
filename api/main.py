@@ -134,8 +134,14 @@ def limit_requests(request: Request) -> None:
 @app.post("/api/ask", dependencies=[Depends(limit_requests)])
 def ask(body: Ask, graph=Depends(get_agent)):
     config, flush = agent_module.tracing_config()
-    result = graph.invoke({"question": body.question}, config=config)
-    flush()
+    try:
+        result = graph.invoke({"question": body.question}, config=config)
+    except Exception as error:
+        if "RESOURCE_EXHAUSTED" in str(error) or "429" in str(error):
+            raise HTTPException(429, "The LLM's free usage limit is used up. Try again later.") from error
+        raise
+    finally:
+        flush()
     rows = result.get("rows") or []
     return {
         "answer": result["answer"],

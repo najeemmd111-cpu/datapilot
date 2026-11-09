@@ -132,3 +132,16 @@ def test_day_of_week_matches_bigquery(client):
     # 2026-11-01 was a Sunday, which BigQuery numbers as 1.
     sql = "SELECT EXTRACT(DAYOFWEEK FROM DATE '2026-11-01') AS sunday, EXTRACT(DAYOFWEEK FROM DATE '2026-11-07') AS saturday"
     assert client.store.run_agent_sql(sql).iloc[0].tolist() == [1, 7]
+
+
+def test_llm_quota_error_returns_429(client):
+    def out_of_quota(question, error):
+        raise RuntimeError("429 RESOURCE_EXHAUSTED")
+
+    normal = main.app.dependency_overrides[main.get_agent]
+    main.app.dependency_overrides[main.get_agent] = lambda: agent.build_agent(client.store, out_of_quota, agent.demo_writer)
+    try:
+        response = client.post("/api/ask", json={"question": "How many bikes?"})
+    finally:
+        main.app.dependency_overrides[main.get_agent] = normal
+    assert response.status_code == 429
