@@ -32,7 +32,17 @@ class LocalStore:
         return self.db.cursor().execute(text, params).fetchdf()
 
     def run_agent_sql(self, sql: str) -> pd.DataFrame:
-        return self.db.cursor().execute(sqlglot.transpile(sql, read="bigquery", write="duckdb")[0]).fetchdf()
+        tree = sqlglot.parse_one(sql, read="bigquery").transform(bigquery_day_of_week)
+        return self.db.cursor().execute(tree.sql(dialect="duckdb")).fetchdf()
+
+
+def bigquery_day_of_week(node):
+    """BigQuery counts Sunday as 1, DuckDB as 0, so shift DuckDB's day numbers to match."""
+    from sqlglot import exp
+
+    if isinstance(node, exp.Extract) and node.this.name.upper() == "DAYOFWEEK":
+        return exp.paren(exp.Extract(this=exp.var("DOW"), expression=node.expression) + 1)
+    return node
 
 
 class BigQueryStore:

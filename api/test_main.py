@@ -126,3 +126,9 @@ def test_web_routes_fall_back_but_api_does_not(client, tmp_path, monkeypatch):
     assert client.get("/api/nope").status_code == 404
 
 
+
+
+def test_day_of_week_matches_bigquery(client):
+    # 2026-11-01 was a Sunday, which BigQuery numbers as 1.
+    sql = "SELECT EXTRACT(DAYOFWEEK FROM DATE '2026-11-01') AS sunday, EXTRACT(DAYOFWEEK FROM DATE '2026-11-07') AS saturday"
+    assert client.store.run_agent_sql(sql).iloc[0].tolist() == [1, 7]

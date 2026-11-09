@@ -1,5 +1,6 @@
 {
   "data": "real",
+  "threshold": 0.3478,
   "baseline_empty_stays_empty": {
     "precision": 0.6087,
     "recall": 0.6103,
@@ -12,14 +13,14 @@
     }
   },
   "hist_gradient_boosting": {
-    "precision": 0.686,
-    "recall": 0.483,
-    "pr_auc": 0.6404,
+    "precision": 0.6173,
+    "recall": 0.5999,
+    "pr_auc": 0.6347,
     "confusion": {
-      "tn": 268672,
-      "fp": 3310,
-      "fn": 7742,
-      "tp": 7233
+      "tn": 266413,
+      "fp": 5569,
+      "fn": 5991,
+      "tp": 8984
     }
   }
 }

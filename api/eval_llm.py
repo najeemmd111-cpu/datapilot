@@ -46,7 +46,7 @@ def main() -> None:
         raise SystemExit("Set LLM_MODELS, for example LLM_MODELS=openai:gpt-5,anthropic:claude-sonnet-5-5")
     print("| Model | Correct | Median seconds |\n| --- | --- | --- |")
     for name in names:
-        result = evaluate(store, agent.llm_tools(name)[0])
+        result = evaluate(store, agent.llm_tools(name, agent.data_note(store))[0])
         print(f"| {name} | {result['correct']}/{result['total']} | {result['median_seconds']} |")
 
 

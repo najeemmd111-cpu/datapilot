@@ -42,7 +42,8 @@ def get_model():
 @lru_cache
 def get_agent():
     model_name = os.getenv("LLM_MODEL")
-    tools = agent_module.llm_tools(model_name) if model_name else (agent_module.demo_planner, agent_module.demo_writer)
+    note = agent_module.data_note(get_store()) if model_name else ""
+    tools = agent_module.llm_tools(model_name, note) if model_name else (agent_module.demo_planner, agent_module.demo_writer)
     return agent_module.build_agent(get_store(), *tools)
 
 
