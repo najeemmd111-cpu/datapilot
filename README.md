@@ -107,6 +107,21 @@ To compare LLMs on the 15 test questions, run this from `api`:
 LLM_MODELS=provider:model-a,provider:model-b ../.venv/bin/python eval_llm.py
 ```
 
+## LLM comparison
+
+Both models answered 15 test questions about the real data. An answer counts as correct when its query results match the expected values. Extra columns are allowed, and numbers are compared to one decimal place. Both models ran on Google's free tier, so the cost was $0.
+
+| Model | Correct | Median seconds |
+| --- | --- | --- |
+| Gemini 3.5 Flash | 14/15 | 25.3 |
+| Gemini 3.5 Flash-Lite | 11/15 | 2.1 |
+
+- Flash is more accurate, but Flash-Lite answered about 12 times faster.
+- Both models missed "Which 5 stations were empty most often?" because of ties for fifth place, so that question needs a tie-break rule.
+- Flash-Lite listed stations when asked how many, and gave per-station averages when asked for one overall average. It seems to over-apply the prompt rule to include `station_id` for station lists.
+- The app uses Flash, because accuracy matters more than speed for this tool.
+- The free tier allows about 20 requests a day per model, so the test pauses between questions and saves each model's SQL for re-scoring.
+
 ## Limits
 
 - The public history only starts on 2026-10-27, so it can't show other seasons.

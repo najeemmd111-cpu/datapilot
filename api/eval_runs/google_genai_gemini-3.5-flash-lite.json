@@ -1,0 +1,92 @@
+[
+  {
+    "q": "Which 5 stations were empty most often?",
+    "sql": "SELECT s.station_id, s.name, COUNTIF(r.bikes = 0) AS empty_readings FROM snapshots AS r JOIN stations AS s USING (station_id) GROUP BY 1, 2 ORDER BY empty_readings DESC LIMIT 5",
+    "error": null,
+    "seconds": 3.48
+  },
+  {
+    "q": "How many bikes were available at the latest reading?",
+    "sql": "SELECT SUM(bikes) AS bikes FROM snapshots WHERE slot = (SELECT MAX(slot) FROM snapshots)",
+    "error": null,
+    "seconds": 193.54
+  },
+  {
+    "q": "At what hour are stations most often empty?",
+    "sql": "SELECT local_hour, COUNTIF(bikes = 0) AS empty_readings FROM snapshots GROUP BY 1 ORDER BY empty_readings DESC LIMIT 1",
+    "error": null,
+    "seconds": 1.03
+  },
+  {
+    "q": "How many stations are there?",
+    "sql": "SELECT count(station_id) AS stations FROM stations",
+    "error": null,
+    "seconds": 4.14
+  },
+  {
+    "q": "What is the total capacity of all stations?",
+    "sql": "SELECT SUM(capacity) AS total_capacity FROM stations",
+    "error": null,
+    "seconds": 2.4
+  },
+  {
+    "q": "What percentage of available bikes are electric?",
+    "sql": "SELECT \n  SAFE_DIVIDE(SUM(ebike), SUM(bikes)) * 100 AS percentage_electric\nFROM snapshots\nWHERE bikes > 0",
+    "error": null,
+    "seconds": 0.68
+  },
+  {
+    "q": "How many stations had no bikes at the latest reading?",
+    "sql": "SELECT s.station_id, s.name FROM snapshots AS r JOIN stations AS s USING (station_id) WHERE r.slot = (SELECT MAX(slot) FROM snapshots) AND r.bikes = 0",
+    "error": null,
+    "seconds": 3.72
+  },
+  {
+    "q": "Which station has the largest capacity?",
+    "sql": "SELECT station_id, name FROM stations ORDER BY capacity DESC LIMIT 1",
+    "error": null,
+    "seconds": 0.63
+  },
+  {
+    "q": "What is the average number of bikes per reading on weekends?",
+    "sql": "SELECT s.station_id, s.name, AVG(r.bikes) AS avg_bikes\nFROM snapshots AS r\nJOIN stations AS s USING (station_id)\nWHERE r.is_weekend = 1\nGROUP BY 1, 2\nORDER BY avg_bikes DESC",
+    "error": null,
+    "seconds": 2.08
+  },
+  {
+    "q": "What is the average number of bikes per reading on weekdays?",
+    "sql": "SELECT s.station_id, s.name, AVG(r.bikes) AS avg_bikes\nFROM snapshots AS r\nJOIN stations AS s USING (station_id)\nWHERE r.is_weekend = 0\nGROUP BY 1, 2\nORDER BY avg_bikes DESC",
+    "error": null,
+    "seconds": 8.82
+  },
+  {
+    "q": "At what hour are the most bikes available in total?",
+    "sql": "SELECT local_hour, SUM(bikes) AS total_bikes FROM snapshots GROUP BY 1 ORDER BY total_bikes DESC LIMIT 1",
+    "error": null,
+    "seconds": 1.81
+  },
+  {
+    "q": "On which date were stations empty the most often?",
+    "sql": "SELECT r.local_date, COUNTIF(r.bikes = 0) AS empty_readings FROM snapshots AS r GROUP BY 1 ORDER BY empty_readings DESC LIMIT 1",
+    "error": null,
+    "seconds": 0.99
+  },
+  {
+    "q": "Which 3 stations have the highest average number of bikes?",
+    "sql": "SELECT s.station_id, s.name, AVG(r.bikes) AS avg_bikes FROM snapshots AS r JOIN stations AS s USING (station_id) GROUP BY 1, 2 ORDER BY avg_bikes DESC LIMIT 3",
+    "error": null,
+    "seconds": 0.92
+  },
+  {
+    "q": "How many readings are in the snapshots table?",
+    "sql": "SELECT COUNT(*) AS readings FROM snapshots",
+    "error": null,
+    "seconds": 0.98
+  },
+  {
+    "q": "How many days of data are there?",
+    "sql": "SELECT COUNT(DISTINCT local_date) AS days FROM snapshots",
+    "error": null,
+    "seconds": 4.84
+  }
+]

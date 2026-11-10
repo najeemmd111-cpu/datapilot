@@ -32,7 +32,9 @@ def columns(df) -> list[list[str]]:
     """Each column as sorted values. Numbers are rounded so 12.34 and 12.3 match."""
     def clean(value):
         if isinstance(value, float):
-            return f"{value:.1f}"
+            # DuckDB returns COUNT_IF as a float, so 3.0 must match 3.
+            value = round(value, 1)
+            return str(int(value)) if value.is_integer() else f"{value:.1f}"
         if hasattr(value, "item"):
             return clean(value.item())
         return str(value)[:10] if hasattr(value, "isoformat") else str(value)
