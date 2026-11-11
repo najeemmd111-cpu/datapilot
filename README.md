@@ -2,6 +2,10 @@
 
 Predicts when Vélib' stations in Paris will run out of bikes, and answers questions about the network in plain English. The front end, Paris Pulse, replays a day across the city as a living map.
 
+**Live demo:** https://najeemmd111-cpu.github.io/datapilot/
+
+The live demo is a free static version on GitHub Pages. The map, replay and predictions use the real data. Ask the city shows saved answers: Gemini 3.5 Flash wrote each query, and the results come from the real data. To ask your own questions, run the project locally.
+
 ## Run it
 
 You need Python 3.10 or newer. You don't need Node, accounts or API keys.
