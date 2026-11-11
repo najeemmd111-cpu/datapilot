@@ -1,17 +1,22 @@
 <div class="page">
   <h1>Ask the city</h1>
-  <form (ngSubmit)="send()">
-    <label for="question">Your question about the stations</label>
-    <div class="line">
-      <input id="question" name="question" maxlength="300" autocomplete="off" required
-        placeholder="Which stations are empty most often?" [ngModel]="question()" (ngModelChange)="question.set($event)" />
-      <button type="submit" [disabled]="loading()">{{ loading() ? 'Asking…' : 'Ask' }}</button>
-    </div>
-  </form>
+  @if (staticDemo) {
+    <p class="demo-note">This online demo shows saved answers. Gemini 3.5 Flash wrote each query, and the results come from the
+      real data. Run the project locally to ask your own questions.</p>
+  } @else {
+    <form (ngSubmit)="send()">
+      <label for="question">Your question about the stations</label>
+      <div class="line">
+        <input id="question" name="question" maxlength="300" autocomplete="off" required
+          placeholder="Which stations are empty most often?" [ngModel]="question()" (ngModelChange)="question.set($event)" />
+        <button type="submit" [disabled]="loading()">{{ loading() ? 'Asking…' : 'Ask' }}</button>
+      </div>
+    </form>
+  }
 
-  @if (!tickets().length && !loading()) {
+  @if (!staticDemo && !tickets().length && !loading()) {
     <div class="try">
-      @for (suggestion of suggestions; track suggestion) {
+      @for (suggestion of suggestions(); track suggestion) {
         <button type="button" (click)="send(suggestion)">{{ suggestion }}</button>
       }
     </div>
@@ -24,6 +29,16 @@
         <div class="side front" [attr.aria-hidden]="ticket.flipped" [inert]="ticket.flipped">
           <p class="asked">{{ ticket.question }}</p>
           <p class="answer">{{ ticket.answer }}</p>
+          @if (ticket.rows.length > 1) {
+            <table>
+              <thead><tr>@for (key of columns(ticket); track key) { <th scope="col">{{ heading(key) }}</th> }</tr></thead>
+              <tbody>
+                @for (row of ticket.rows.slice(0, 5); track $index) {
+                  <tr>@for (key of columns(ticket); track key) { <td>{{ cell(row[key]) }}</td> }</tr>
+                }
+              </tbody>
+            </table>
+          }
           <div class="actions">
             @if (ticket.sql) { <button type="button" (click)="flip(ticket)">See the SQL</button> }
             @if (ticket.station_ids.length) { <button type="button" (click)="showOnMap(ticket)">Show on the map</button> }
@@ -36,4 +51,13 @@
       </article>
     }
   </div>
+
+  @if (staticDemo) {
+    <h2 class="saved-heading">{{ tickets().length ? 'More saved questions' : 'Pick a saved question' }}</h2>
+    <div class="try">
+      @for (suggestion of suggestions(); track suggestion) {
+        <button type="button" (click)="send(suggestion)">{{ suggestion }}</button>
+      }
+    </div>
+  }
 </div>

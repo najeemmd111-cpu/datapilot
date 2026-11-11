@@ -6,6 +6,8 @@ label { color: var(--mist); }
 .line { display: flex; gap: 8px; margin-top: 4px; }
 input { flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid var(--mist); border-radius: 10px; background: var(--enamel); }
 .line button { padding: 10px 24px; border: 0; border-radius: 10px; background: var(--plaque); color: var(--enamel); font-weight: 800; }
+.saved-heading { margin-top: 28px; font-size: 20px; font-weight: 500; color: var(--mist); }
+.demo-note { margin-top: 14px; max-width: 60ch; color: var(--mist); }
 .try { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .try button { padding: 6px 14px; border: 1px solid var(--mist); border-radius: 999px; background: none; color: var(--plaque); }
 .try button:hover { background: var(--enamel-lift); }
@@ -25,6 +27,10 @@ input { flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid var(--mist)
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .actions button { padding: 4px 12px; border: 1px solid var(--plaque); border-radius: 999px; background: none; }
 .actions button:hover { background: var(--enamel-lift); }
+table { width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 16px; }
+th { text-align: left; font-weight: 500; color: var(--mist); text-transform: capitalize; }
+th, td { padding: 3px 10px 3px 0; border-bottom: 1px solid #ffffff1f; }
+td:not(:first-child), th:not(:first-child) { text-align: right; }
 pre { margin: 0; max-height: 170px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 16px; color: var(--plaque); }
 code { font-family: ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace; }
 @media (max-width: 480px) {
